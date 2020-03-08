@@ -21,6 +21,8 @@ services:
         POSTGRES_DB: 'fusionpbx'
         POSTGRES_USER: 'fusionpbx'
         POSTGRES_PASSWORD: '4321'
+      volumes:
+      - ./db_data:/var/lib/postgresql/data
       networks:
         main:
           aliases:
