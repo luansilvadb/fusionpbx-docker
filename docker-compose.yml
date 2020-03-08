@@ -17,12 +17,15 @@ services:
       - db
   db:
       image: postgres:10-alpine
+      user: "1000:100"
       environment:
         POSTGRES_DB: 'fusionpbx'
         POSTGRES_USER: 'fusionpbx'
         POSTGRES_PASSWORD: '4321'
       volumes:
       - ./db_data:/var/lib/postgresql/data
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
       networks:
         main:
           aliases:
