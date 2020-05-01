@@ -33,63 +33,17 @@ RUN apt-get update \
     && ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx \
     && ln -s /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/nginx.key \
     && ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt \
-    && rm /etc/nginx/sites-enabled/default \
-    && wget -O - https://files.freeswitch.org/repo/deb/debian-release/fsstretch-archive-keyring.asc | apt-key add - \
-    && echo "deb http://files.freeswitch.org/repo/deb/debian-release/ buster main" > /etc/apt/sources.list.d/freeswitch.list \
-    && apt-get update \
-    && apt-get install -y \
-        freeswitch-meta-bare \
-        freeswitch-conf-vanilla \
-        freeswitch-mod-commands \
-        freeswitch-mod-console \
-        freeswitch-mod-logfile \
-        freeswitch-lang-en \
-        freeswitch-mod-say-en \
-        freeswitch-sounds-en-us-callie \
-        freeswitch-mod-enum \
-        freeswitch-mod-cdr-csv \
-        freeswitch-mod-event-socket \
-        freeswitch-mod-sofia \
-        freeswitch-mod-loopback \
-        freeswitch-mod-conference \
-        freeswitch-mod-db \
-        freeswitch-mod-dptools \
-        freeswitch-mod-expr \
-        freeswitch-mod-fifo \
-        freeswitch-mod-httapi \
-        freeswitch-mod-hash \
-        freeswitch-mod-esl \
-        freeswitch-mod-esf \
-        freeswitch-mod-fsv \
-        freeswitch-mod-valet-parking \
-        freeswitch-mod-dialplan-xml \
-        freeswitch-mod-sndfile \
-        freeswitch-mod-native-file \
-        freeswitch-mod-local-stream \
-        freeswitch-mod-tone-stream \
-        freeswitch-mod-lua \
-        freeswitch-meta-mod-say \
-        freeswitch-mod-xml-cdr \
-        freeswitch-mod-verto \
-        freeswitch-mod-callcenter \
-        freeswitch-mod-rtc \
-        freeswitch-mod-png \
-        freeswitch-mod-json-cdr \
-        freeswitch-mod-shout \
-        freeswitch-mod-sms \
-        freeswitch-mod-sms-dbg \
-        freeswitch-mod-cidlookup \
-        freeswitch-mod-memcache \
-        freeswitch-mod-imagick \
-        freeswitch-mod-tts-commandline \
-        freeswitch-mod-directory \
-        freeswitch-mod-flite \
-        freeswitch-mod-distributor \
-        freeswitch-mod-gsmopen \
-        freeswitch-meta-codecs \
-        freeswitch-mod-pgsql \
-        freeswitch-music-default \
-    && usermod -a -G freeswitch www-data \
+    && rm /etc/nginx/sites-enabled/default
+
+    RUN cd /usr/src/ && git clone -b 1.10 https://github.com/signalwire/freeswitch    
+    RUN cd /usr/src/freeswitch && \
+    git config pull.rebase true && \
+    ./bootstrap.sh -j && \
+    ./configure && \
+    make && \
+    make install
+
+    RUN usermod -a -G freeswitch www-data \
     && usermod -a -G www-data freeswitch \
     && chown -R freeswitch:freeswitch /var/lib/freeswitch \
     && chmod -R ug+rw /var/lib/freeswitch \

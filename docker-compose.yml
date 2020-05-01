@@ -7,8 +7,8 @@ services:
       - ./fusionpbx:/var/www/fusionpbx
     ports:
       - "5060:5060/udp"
-      - "80:80"
-      - "443:443"
+      - "9090:80"
+      - "9094:443"
     networks:
       main:
         aliases: 
@@ -21,7 +21,7 @@ services:
       environment:
         POSTGRES_DB: 'fusionpbx'
         POSTGRES_USER: 'fusionpbx'
-        POSTGRES_PASSWORD: '4321'
+        POSTGRES_PASSWORD: 'doAvJVVEqkZTXdHYJ7wpCPNLqS7Db7RR'
       volumes:
       - ./db_data:/var/lib/postgresql/data
       - /etc/passwd:/etc/passwd:ro
