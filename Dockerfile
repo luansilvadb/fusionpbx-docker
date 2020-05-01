@@ -1,5 +1,5 @@
 FROM debian:buster
-LABEL mainteiner = Igor Olhovskiy <IgorOlhovskiy@gmail.com>
+LABEL maintainer = Igor Olhovskiy <IgorOlhovskiy@gmail.com>
 
 # Install Required Dependencies
 RUN apt-get update \
@@ -85,6 +85,7 @@ RUN apt-get update \
         freeswitch-mod-directory \
         freeswitch-mod-flite \
         freeswitch-mod-distributor \
+        freeswitch-mod-gsmopen \
         freeswitch-meta-codecs \
         freeswitch-mod-pgsql \
         freeswitch-music-default \
