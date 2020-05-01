@@ -4,12 +4,10 @@ services:
   fusionpbx:
     build: .
     image: crazyquark/fusionpbx:armhf
-    volumes:
-      - fusionpbx:/var/www/fusionpbx
     ports:
       - "5060:5060/udp"
-      - "9090:80"
-      - "9094:443"
+      - "80:80"
+      - "443:443"
     networks:
       main:
         aliases: 
@@ -34,4 +32,3 @@ networks:
 
 volumes: 
   fusionpbx_db:
-  fusionpbx:
