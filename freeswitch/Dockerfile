@@ -51,10 +51,6 @@ RUN cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswit
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/gsmlib/gsmlib-1.10-patched-13ubuntu && ./configure && make && make install
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/libctb-0.16/build && make DEBUG=0 GPIB=0 && make DEBUG=0 GPIB=0 install
 
-RUN cd /usr/src/freeswitch && \
-    git config pull.rebase true && \
-    ./bootstrap.sh -j
-
 # Enable modules
 RUN sed -i /usr/src/freeswitch/modules.conf -e s:'#endpoints/mod_gsmopen:endpoints/mod_gsmopen:' && \
     sed -i /usr/src/freeswitch/modules.conf -e s:'#databases/mod_mariadb:databases/mod_mariadb:' && \
