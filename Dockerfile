@@ -17,7 +17,7 @@ RUN mkdir -p /var/cache/fusionpbx && \
     chown -R www-data:www-data /var/cache/fusionpbx
 
 # Get the source code
-RUN git clone ${FUSION_PBX_BRANCH}} https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
+RUN git clone -b ${FUSION_PBX_BRANCH} https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 RUN chown -R www-data:www-data /var/www/fusionpbx
 
 RUN usermod -a -G freeswitch www-data \

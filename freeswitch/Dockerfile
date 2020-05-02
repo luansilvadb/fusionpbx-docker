@@ -49,15 +49,18 @@ RUN cd /usr/src/freeswitch && \
     sed -i 's/#endpoints\/mod_gsmopen/endpoints\/mod_gsmopen/g' modules.conf && \
     ./configure && make && make install
 
-# create user 'freeswitch'
-# add it to group 'freeswitch'
-# change owner and group of the freeswitch installation
+# Create user 'freeswitch'
+# Add it to group 'freeswitch'
+# Change owner and group of the freeswitch installation
 RUN cd /usr/local && \
     groupadd freeswitch && \
     adduser --quiet --system --home /usr/local/freeswitch --gecos "FreeSWITCH open source softswitch" --ingroup freeswitch freeswitch --disabled-password && \
     chown -R freeswitch:freeswitch /usr/local/freeswitch/ && \
     chmod -R ug=rwX,o= /usr/local/freeswitch/ && \
     chmod -R u=rwx,g=rx /usr/local/freeswitch/bin/*
+
+# Fix event_socket config
+RUN sed -i 's/::/127.0.0.1/g' /usr/local/freeswitch/conf/autoload_configs/event_socket.conf.xml
 
 COPY start-freeswitch.sh /usr/bin/start-freeswitch.sh
 
@@ -66,4 +69,4 @@ EXPOSE 5060/udp
 # Remember, docker cannot handle too many ports
 EXPOSE 16384-32768/udp
 
-VOLUME ["/etc/freeswitch", "/var/lib/freeswitch", "/usr/share/freeswitch"]
+VOLUME ["/usr/local/freeswitch/", "/usr/src/freeswitch/"]
