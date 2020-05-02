@@ -34,10 +34,9 @@ RUN apt-get update \
         postgresql-client \
         netcat
 
-# RUN	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub | apt-key add - && \
-# 	echo "deb http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list && \
-# 	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list && \
-#     apt-get update
+# Setup Freeswitch repo
+COPY ./add-freeswitch-repo.sh /usr/src/freeswitch/add-freeswitch-repo.sh
+RUN /usr/src/freeswitch/add-freeswitch-repo.sh
 
 # Freeswitch build deps
 RUN apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev && \
