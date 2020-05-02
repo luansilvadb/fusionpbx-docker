@@ -1,7 +1,7 @@
 FROM debian:buster
 LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 
-ENV SWITCH_VER=v1.10
+ENV SWITCH_VER=v1.10.2
 
 # Install Required Dependencies
 RUN apt-get update \
@@ -34,14 +34,26 @@ RUN apt-get update \
         postgresql-client \
         netcat
 
-RUN	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub | apt-key add - && \
-	echo "deb http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list && \
-	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list && \
-    apt-get update
+# RUN	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub | apt-key add - && \
+# 	echo "deb http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list && \
+# 	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list && \
+#     apt-get update
+
+# Freeswitch build deps
+RUN apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev && \
+    apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev && \
+    apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev && \
+    apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev && \
+    apt install -y libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev libvpx4
+
+# Additional dependencies
+RUN apt install -y sqlite3 swig3.0 unzip
 
 # Get Freeswitch sources
-RUN apt-get build-dep -y freeswitch
-RUN cd /usr/src/ && git clone -b ${SWITCH_VER} https://github.com/signalwire/freeswitch    
+RUN cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-${SWITCH_VER}.-release.zip && \
+    unzip freeswitch-${SWITCH_VER}}.-release.zip && \
+    rm -R freeswitch && \
+    mv freeswitch-${SWITCH_VER}}.-release freeswitch
 
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/gsmlib/gsmlib-1.10-patched-13ubuntu && ./configure && make && make install
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/libctb-0.16/build && make DEBUG=0 GPIB=0 && make DEBUG=0 GPIB=0 install
