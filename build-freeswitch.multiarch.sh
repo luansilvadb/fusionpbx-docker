@@ -8,5 +8,5 @@ fi
 TAG=${ARCH/\//}
 
 pushd freeswitch
-docker buildx build --platform linux/${ARCH} --push -t crazyquark/freeswitch:${TAG} .
+docker buildx build --no-cache --platform linux/${ARCH} --push -t crazyquark/freeswitch .
 popd

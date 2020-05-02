@@ -3,7 +3,7 @@ version: '3'
 services:
   fusionpbx:
     build: .
-    image: crazyquark/fusionpbx:armhf
+    image: crazyquark/fusionpbx
     ports:
       - "5060:5060/udp"
       - "80:80"
