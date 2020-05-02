@@ -64,9 +64,9 @@ RUN sed -i 's/::/127.0.0.1/g' /usr/local/freeswitch/conf/autoload_configs/event_
 
 COPY start-freeswitch.sh /usr/bin/start-freeswitch.sh
 
-EXPOSE 5060/udp
-
 # Remember, docker cannot handle too many ports
+EXPOSE 5060/udp
 EXPOSE 16384-32768/udp
 
-VOLUME ["/usr/local/freeswitch/", "/usr/src/freeswitch/"]
+# Persist Freeswitch data
+VOLUME ["/usr/local/freeswitch/"]
