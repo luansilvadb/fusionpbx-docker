@@ -20,6 +20,7 @@ RUN apt-get update \
         php-cli \
         php-fpm \
         php-pgsql \
+        php-mysql \
         php-odbc \
         php-curl \
         php-imap \
@@ -30,6 +31,7 @@ RUN apt-get update \
         supervisor \
         net-tools \
         gnupg2 \
+        postgresql-client \
         netcat
 
 RUN	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub | apt-key add - && \
@@ -37,6 +39,7 @@ RUN	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitc
 	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list && \
     apt-get update
 
+# Get Freeswitch sources
 RUN apt-get build-dep -y freeswitch
 RUN cd /usr/src/ && git clone -b ${SWITCH_VER} https://github.com/signalwire/freeswitch    
 
@@ -45,22 +48,44 @@ RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/libctb-0.16/build && ma
 
 RUN cd /usr/src/freeswitch && \
     git config pull.rebase true && \
-    ./bootstrap.sh -j && \
-    sed -i 's/#endpoints\/mod_gsmopen/endpoints\/mod_gsmopen/g' modules.conf && \
-    sed -i 's/#databases\/mod_mariadb/databases\/mod_mariadb/g' modules.conf && \
-    ./configure && make && make install
+    ./bootstrap.sh -j
 
-# Create user 'freeswitch'
-# Add it to group 'freeswitch'
-# Change owner and group of the freeswitch installation
-RUN cd /usr/local && \
-    groupadd freeswitch && \
-    adduser --quiet --system --home /usr/local/freeswitch --gecos "FreeSWITCH open source softswitch" --ingroup freeswitch freeswitch --disabled-password && \
-    chown -R freeswitch:freeswitch /usr/local/freeswitch/ && \
-    chmod -R ug=rwX,o= /usr/local/freeswitch/ && \
-    chmod -R u=rwx,g=rx /usr/local/freeswitch/bin/*
+# Enable modules
+RUN sed -i /usr/src/freeswitch/modules.conf -e s:'#endpoints/mod_gsmopen:endpoints/mod_gsmopen:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#databases/mod_mariadb:databases/mod_mariadb:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_nibblebill:applications/mod_nibblebill:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:' && \
+    sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgsql:'
 
-# Fix event_socket config
+# Configure build
+RUN cd /usr/src/freeswitch && ./configure && ./configure -C --enable-portable-binary --disable-dependency-tracking \
+    --prefix=/usr --localstatedir=/var --sysconfdir=/etc \
+    --with-openssl --enable-core-pgsql-support
+
+# Build & install
+RUN cd /usr/src/freeswitch && \
+    make && \
+    make install && \
+    make sounds-install moh-install && \
+    make hd-sounds-install hd-moh-install && \
+    make cd-sounds-install cd-moh-install
+
+# Move the music into music/default directory
+RUN mkdir -p /usr/share/freeswitch/sounds/music/default && \
+    mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
+
+RUN chown -R www-data:www-data /etc/freeswitch && \
+    chown -R www-data:www-data /var/lib/freeswitch && \
+    chown -R www-data:www-data /usr/share/freeswitch && \
+    chown -R www-data:www-data /var/log/freeswitch && \
+    chown -R www-data:www-data /var/run/freeswitch
+
+# Fix event_socket config to listen on localhost
 RUN sed -i 's/::/127.0.0.1/g' /usr/local/freeswitch/conf/autoload_configs/event_socket.conf.xml
 
 COPY start-freeswitch.sh /usr/bin/start-freeswitch.sh

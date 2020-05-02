@@ -12,9 +12,16 @@ RUN PHP_VERSION=$(php --version | head -1 | awk '{print $2}' | cut -d. -f 1-2) \
     && ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt \
     && rm /etc/nginx/sites-enabled/default
 
+# Add the cache directory
+RUN mkdir -p /var/cache/fusionpbx && \
+    chown -R www-data:www-data /var/cache/fusionpbx
+
 # Get the source code
 RUN git clone -b ${FUSION_PBX_BRANCH} https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 RUN chown -R www-data:www-data /var/www/fusionpbx
+
+# Copy freeswitch conf
+RUN cp -R /var/www/fusionpbx/resources/templates/conf/* /etc/freeswitch && chown -R www-data:www-data /etc/freeswitch
 
 RUN usermod -a -G freeswitch www-data \
     && usermod -a -G www-data freeswitch \
