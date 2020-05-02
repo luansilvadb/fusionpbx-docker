@@ -1,7 +1,7 @@
 FROM debian:buster
 LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 
-ENV SWITCH_VER=v1.10.2
+ENV SWITCH_VER=1.10.2
 
 # Install Required Dependencies
 RUN apt update \
@@ -85,9 +85,6 @@ RUN chown -R www-data:www-data /etc/freeswitch && \
     chown -R www-data:www-data /usr/share/freeswitch && \
     chown -R www-data:www-data /var/log/freeswitch && \
     chown -R www-data:www-data /var/run/freeswitch
-
-# Fix event_socket config to listen on localhost
-RUN sed -i 's/::/127.0.0.1/g' /usr/local/freeswitch/conf/autoload_configs/event_socket.conf.xml
 
 COPY start-freeswitch.sh /usr/bin/start-freeswitch.sh
 
