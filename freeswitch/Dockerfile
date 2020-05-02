@@ -44,9 +44,9 @@ RUN apt build-dep -y freeswitch
 
 # Get Freeswitch sources
 RUN cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-${SWITCH_VER}.-release.zip && \
-    unzip freeswitch-${SWITCH_VER}}.-release.zip && \
+    unzip freeswitch-${SWITCH_VER}.-release.zip && \
     rm -R freeswitch && \
-    mv freeswitch-${SWITCH_VER}}.-release freeswitch
+    mv freeswitch-${SWITCH_VER}.-release freeswitch
 
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/gsmlib/gsmlib-1.10-patched-13ubuntu && ./configure && make && make install
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/libctb-0.16/build && make DEBUG=0 GPIB=0 && make DEBUG=0 GPIB=0 install
