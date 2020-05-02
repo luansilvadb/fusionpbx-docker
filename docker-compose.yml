@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
   db:
-      image: postgres:alpine
+      image: postgres:10-alpine
       user: "0:0"
       environment:
         POSTGRES_DB: 'fusionpbx'
