@@ -40,7 +40,7 @@ COPY ./add-freeswitch-repo.sh /usr/src/freeswitch/add-freeswitch-repo.sh
 RUN /usr/src/freeswitch/add-freeswitch-repo.sh
 
 # Freeswitch build deps
-RUN apt build-dep freeswitch
+RUN apt build-dep -y freeswitch
 
 # Get Freeswitch sources
 RUN cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-${SWITCH_VER}.-release.zip && \
