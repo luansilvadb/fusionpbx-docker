@@ -23,9 +23,8 @@ RUN chown -R www-data:www-data /var/www/fusionpbx
 # Copy freeswitch conf
 RUN cp -R /var/www/fusionpbx/resources/templates/conf/* /etc/freeswitch && chown -R www-data:www-data /etc/freeswitch
 
-RUN usermod -a -G freeswitch www-data \
-    && usermod -a -G www-data freeswitch \
-    && mkdir -p /etc/fusionpbx \
+# Config dir and cleanup
+RUN mkdir -p /etc/fusionpbx \
     && chown -R www-data:www-data /etc/fusionpbx \
     && mkdir -p /run/php/ \
     && apt-get clean \
