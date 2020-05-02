@@ -32,6 +32,6 @@ RUN PHP_VERSION=$(php --version | head -1 | awk '{print $2}' | cut -d. -f 1-2) \
 EXPOSE 80
 EXPOSE 443
 
-VOLUME ["/etc/fusionpbx", "/var/www/fusionpbx"]
+VOLUME ["/etc/fusionpbx"]
 
 CMD /usr/bin/supervisord -n

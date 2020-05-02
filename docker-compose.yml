@@ -23,6 +23,7 @@ services:
         POSTGRES_PASSWORD: 'doAvJVVEqkZTXdHYJ7wpCPNLqS7Db7RR'
       volumes:
         - fusionpbx_db:/var/lib/postgresql/data
+        - fusionpbx_config:/etc/fusionpbx
       networks:
         main:
           aliases:
@@ -32,3 +33,4 @@ networks:
 
 volumes: 
   fusionpbx_db:
+  fusionpbx_config:

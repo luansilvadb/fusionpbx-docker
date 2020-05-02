@@ -47,6 +47,7 @@ RUN cd /usr/src/freeswitch && \
     git config pull.rebase true && \
     ./bootstrap.sh -j && \
     sed -i 's/#endpoints\/mod_gsmopen/endpoints\/mod_gsmopen/g' modules.conf && \
+    sed -i 's/#databases\/mod_mariadb/databases\/mod_mariadb/g' modules.conf && \
     ./configure && make && make install
 
 # Create user 'freeswitch'
