@@ -4,9 +4,9 @@ LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 ENV SWITCH_VER=v1.10.2
 
 # Install Required Dependencies
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y \
         ca-certificates \
         git \
         sed \
@@ -32,6 +32,7 @@ RUN apt-get update \
         net-tools \
         gnupg2 \
         postgresql-client \
+        unzip \
         netcat
 
 # Setup Freeswitch repo
@@ -39,14 +40,7 @@ COPY ./add-freeswitch-repo.sh /usr/src/freeswitch/add-freeswitch-repo.sh
 RUN /usr/src/freeswitch/add-freeswitch-repo.sh
 
 # Freeswitch build deps
-RUN apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev && \
-    apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev && \
-    apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev && \
-    apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev && \
-    apt install -y libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev libvpx4
-
-# Additional dependencies
-RUN apt install -y sqlite3 swig3.0 unzip
+RUN apt build-dep freeswitch
 
 # Get Freeswitch sources
 RUN cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-${SWITCH_VER}.-release.zip && \

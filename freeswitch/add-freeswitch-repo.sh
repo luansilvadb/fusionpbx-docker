@@ -31,3 +31,6 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 	echo "deb http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list
 	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
 fi
+
+# Update cache
+apt update

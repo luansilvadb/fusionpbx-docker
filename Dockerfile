@@ -27,7 +27,7 @@ RUN cp -R /var/www/fusionpbx/resources/templates/conf/* /etc/freeswitch && chown
 RUN mkdir -p /etc/fusionpbx \
     && chown -R www-data:www-data /etc/fusionpbx \
     && mkdir -p /run/php/ \
-    && apt-get clean \
+    && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 ADD ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
