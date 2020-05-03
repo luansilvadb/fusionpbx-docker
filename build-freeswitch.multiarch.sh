@@ -1,10 +1,10 @@
 #!/bin/bash
-ARCH=$1
+PLATFORM=$1
 
 if [[ -z $1 ]]; then
-    ARCH=arm/v7
+    PLATFORM=linux/arm/v7,linux/amd64
 fi
 
 pushd freeswitch
-docker buildx build --platform linux/${ARCH} --platform linux/amd64 --push -t crazyquark/freeswitch .
+docker buildx build --platform ${PLATFORM} --push -t crazyquark/freeswitch .
 popd
