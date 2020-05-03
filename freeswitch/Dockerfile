@@ -93,4 +93,4 @@ EXPOSE 5060/udp
 EXPOSE 16384-32768/udp
 
 # Persist Freeswitch data
-VOLUME ["/usr/local/freeswitch/"]
+VOLUME ["/etc/freeswitch/"]
