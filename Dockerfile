@@ -1,4 +1,4 @@
-FROM crazyquark/freeswitch:armhf
+FROM crazyquark/freeswitch
 LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 
 ENV FUSION_PBX_BRANCH=4.4
