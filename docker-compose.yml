@@ -11,19 +11,18 @@ services:
       main:
         aliases: 
           - fusion
+    volumes:
+      - fusionpbx_config:/etc/fusionpbx
     depends_on:
       - db
   db:
-      image: mariadb
+      image: postgres:alpine
       environment:
-        MYSQL_ROOT_PASSWORD: 'cTFCkcL3XruJ6XCUxSLy7G-i7qUpzqrQ'
-        MYSQL_ROOT_HOST: '0.0.0.0'
-        MYSQL_DATABASE: 'fusionpbx'
-        MYSQL_USER: 'fusionpbx'
-        MYSQL_PASSWORD: 'doAvJVVEqkZTXdHYJ7wpCPNLqS7Db7RR'
+        POSTGRES_USER: 'fusionpbx'
+        POSTGRES_DB: 'fusionpbx'
+        POSTGRES_PASSWORD: 'doAvJVVEqkZTXdHYJ7wpCPNLqS7Db7RR'
       volumes:
-        - fusionpbx_db:/var/lib/mysql/
-        - fusionpbx_config:/etc/fusionpbx
+        - fusionpbx_db:/var/lib/postgresql/data
       networks:
         main:
           aliases:
