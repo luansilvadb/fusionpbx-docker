@@ -1,5 +1,5 @@
 ## What is this?
-Multiarch docker build for FreePBX + Freeswitch(tested with x86_64 and armv7).
+Multiarch docker build for FusionPBX + Freeswitch(tested with x86_64 and armv7).
 
 ## Build
 Run `build-freeswitch.sh` first to build the Freeswitch base image(takes the longest). This builds `arm/v7` and `amd64` by default but you can ass as parameter another arch that you need(e.g. `arm64`).  
