@@ -13,6 +13,7 @@ services:
           - fusion
     volumes:
       - fusionpbx_config:/etc/fusionpbx
+      - freswitch_config:/etc/freeswitch
     depends_on:
       - db
   db:
@@ -33,3 +34,4 @@ networks:
 volumes: 
   fusionpbx_db:
   fusionpbx_config:
+  freswitch_config:
