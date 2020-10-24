@@ -87,6 +87,7 @@ RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen && \
     make install
 RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/configs/ && \
     cp gsmopen.conf.xml /etc/freeswitch/autoload_configs/
+RUN usermod -aG dialout www-data
 
 # Move the music into music/default directory
 RUN mkdir -p /usr/share/freeswitch/sounds/music/default && \
