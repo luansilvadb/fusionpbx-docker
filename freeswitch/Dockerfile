@@ -76,6 +76,18 @@ RUN cd /usr/src/freeswitch && \
     make hd-sounds-install hd-moh-install && \
     make cd-sounds-install cd-moh-install
 
+# mod_gsmopen
+RUN apt-get install gsm-utils libgsmme-dev usb-modeswitch-data usb-modeswitch
+RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen/libctb-0.16/build && \
+    make DEBUG=0 GPIB=0 && \
+    make DEBUG=0 GPIB=0 install && \
+    ldconfig
+RUN cd /usr/src/freeswitch/src/mod/endpoints/mod_gsmopen && \
+    make clean && \
+    make install
+RUN cd /usr/src/freeswitch.trunk/src/mod/endpoints/mod_gsmopen/configs/ && \
+    cp gsmopen.conf.xml /usr/local/freeswitch/conf/autoload_configs/
+
 # Move the music into music/default directory
 RUN mkdir -p /usr/share/freeswitch/sounds/music/default && \
     mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
