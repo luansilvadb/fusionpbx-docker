@@ -4,9 +4,7 @@ services:
   fusionpbx:
     image: crazyquark/fusionpbx
     ports:
-      - "5060:5060"
-      - "5070:5080"
-      - "5080:5080"
+      - "5060:5060/tcp"
       - "8080:80"
       - "8443:443"
       - "16384-16390:16384-16390/udp"
