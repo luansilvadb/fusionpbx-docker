@@ -16,6 +16,9 @@ services:
       - freswitch_config:/etc/freeswitch
     depends_on:
       - db
+    devices:
+      - /dev/ttyUSB2
+      - /dev/ttyUSB3
   db:
       image: postgres:alpine
       environment:
