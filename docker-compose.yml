@@ -30,6 +30,7 @@ services:
         POSTGRES_PASSWORD: 'doAvJVVEqkZTXdHYJ7wpCPNLqS7Db7RR'
       volumes:
         - fusionpbx_db:/var/lib/postgresql/data
+        - ./postgres:/docker-entrypoint-initdb.d
       networks:
         main:
           aliases:
