@@ -1,7 +1,7 @@
 FROM debian:buster
 LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 
-ENV SWITCH_VER=1.10.2
+ENV SWITCH_VER=1.10.5
 
 # Install Required Dependencies
 RUN apt update \

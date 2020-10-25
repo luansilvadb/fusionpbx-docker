@@ -1,7 +1,7 @@
 FROM crazyquark/freeswitch
 LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 
-ENV FUSION_PBX_BRANCH=4.4
+ENV FUSION_PBX_BRANCH=master
 
 # Setup NGINX
 RUN PHP_VERSION=$(php --version | head -1 | awk '{print $2}' | cut -d. -f 1-2) \
