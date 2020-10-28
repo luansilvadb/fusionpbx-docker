@@ -103,6 +103,7 @@ RUN chown -R www-data:www-data /etc/freeswitch && \
 COPY start-freeswitch.sh /usr/bin/start-freeswitch.sh
 
 # Remember, docker cannot handle too many ports
+EXPOSE 5060/tcp
 EXPOSE 5060/udp
 EXPOSE 16384-32768/udp
 
