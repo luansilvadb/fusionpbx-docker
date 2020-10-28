@@ -3,6 +3,8 @@ LABEL maintainer = Cristian Sandu <cristian.sandu@gmail.com>
 
 ENV FUSION_PBX_BRANCH=master
 
+RUN apt-get update && apt-get install -y nano
+
 # Setup NGINX
 RUN PHP_VERSION=$(php --version | head -1 | awk '{print $2}' | cut -d. -f 1-2) \
     && wget https://raw.githubusercontent.com/samael33/fusionpbx-install.sh/master/debian/resources/nginx/fusionpbx -O /etc/nginx/sites-available/fusionpbx \
