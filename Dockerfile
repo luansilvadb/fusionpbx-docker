@@ -30,7 +30,7 @@ RUN sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param na
     sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="rtp-end-port" value="32768"/> -->:<param name="rtp-end-port" value="16390"/>'
 
 # Copy the scripts
-RUN cp -R /var/www/fusionpbx/resources/install/scripts /usr/share/freeswitch && chown -R www-data:www-data /usr/share/freeswitch
+RUN cp -R /var/www/fusionpbx/app/scripts/resources/scripts /usr/share/freeswitch && chown -R www-data:www-data /usr/share/freeswitch
 
 
 # Config dir and cleanup
