@@ -26,8 +26,8 @@ RUN chown -R www-data:www-data /var/www/fusionpbx
 RUN cp -R /var/www/fusionpbx/resources/templates/conf/* /etc/freeswitch && chown -R www-data:www-data /etc/freeswitch
 
 # Adjust RTP ports
-RUN sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="rtp-start-port" value="16384"/> -->:<param name="rtp-start-port" value="16384"/>' && \
-    sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="rtp-end-port" value="32768"/> -->:<param name="rtp-end-port" value="16390"/>'
+RUN sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e 's/<!-- <param name="rtp-start-port" value="16384"\/> -->/<param name="rtp-start-port" value="16384"\/>/g' && \
+    sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e 's/<!-- <param name="rtp-end-port" value="32768"\/> -->/<param name="rtp-end-port" value="16390"\/>/g'
 
 # Copy the scripts
 RUN cp -R /var/www/fusionpbx/app/scripts/resources/scripts /usr/share/freeswitch && chown -R www-data:www-data /usr/share/freeswitch
