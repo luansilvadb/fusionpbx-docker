@@ -33,6 +33,7 @@ RUN apt update \
         gnupg2 \
         postgresql-client \
         unzip \
+        tcpdump \
         nano \
         netcat
 
